@@ -5,7 +5,7 @@ class Chromosome:
 
     def __init__(self, length, *args):
 
-        self.__mutationPercentage = 20
+        self.__mutationPercentage = 25
         self.__length = length
         self.__path = []
         if len(args) == 0:
@@ -33,3 +33,6 @@ class Chromosome:
             if newInt != thisInt:
                 break
         path[thisIndex] = newInt
+
+    def getPath(self):
+        return self.__path
