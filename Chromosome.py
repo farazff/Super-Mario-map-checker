@@ -8,10 +8,16 @@ class Chromosome:
         self.__mutationPercentage = 25
         self.__length = length
         self.__path = []
+        self.__fitnessGrade = randint(0,10)
         if len(args) == 0:
             self.__path = self.generateRandomPath()
         else:
             self.__path = args[0]
+    def getFitnessGrade(self):
+        return self.__fitnessGrade
+
+    def getPath(self):
+        return self.__path
 
     def generateRandomPath(self) -> list:
         length = self.__length
