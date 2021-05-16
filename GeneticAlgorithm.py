@@ -34,16 +34,16 @@ class GeneticAlgorithm:
         for i in range(self.__numberOfChromosomes):
             tmp = []
             tmpGrade1 = randint(0, gradeTmp)
-            for i in gradesTempDict.keys():
-                if tmpGrade1 >= i[0] and tmpGrade1 <= i[1]:
-                    tmp.append(gradesTempDict[i])
+            for j in gradesTempDict.keys():
+                if tmpGrade1 >= j[0] and tmpGrade1 <= j[1]:
+                    tmp.append(gradesTempDict[j])
                     break
             flg = True
             while flg:
                 tmpGrade = randint(0, gradeTmp)
-                for i in gradesTempDict.keys():
-                    if tmpGrade >= i[0] and tmpGrade <= i[1]:
-                        tmp.append(gradesTempDict[i])
+                for k in gradesTempDict.keys():
+                    if tmpGrade >= k[0] and tmpGrade <= k[1]:
+                        tmp.append(gradesTempDict[k])
                         flg = False
                         break
             selectedParents.append(tmp)
