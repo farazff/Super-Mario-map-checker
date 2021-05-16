@@ -3,9 +3,9 @@ from random import randint
 
 class Chromosome:
 
-    def __init__(self, length, *args):
+    def __init__(self, length, *args,mutationPercentage):
 
-        self.__mutationPercentage = 25
+        self.__mutationPercentage = mutationPercentage
         self.__length = length
         self.__path = []
         self.__fitnessGrade = randint(0,10)
