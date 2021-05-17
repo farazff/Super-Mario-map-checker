@@ -1,5 +1,4 @@
 from Chromosome import Chromosome
-from GeneticAlgorithm import GeneticAlgorithm
 
 
 def listToString(s):
@@ -11,15 +10,18 @@ def listToString(s):
 
 
 def main():
-    # chromosome = Chromosome(12)
-    # print(listToString(chromosome.getPath()))
+    board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    chromosome = Chromosome(12, 100, board)
+    chromosome.setPath([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0])
+    print(listToString(chromosome.getPath()))
+    chromosome.fitnessFunction()
     # chromosome.mutation()
     # print(listToString(chromosome.getPath()))
-    geneticAlgorithm =GeneticAlgorithm(numberOfChromosomes=10)
-    geneticAlgorithm.initializeChromosomes()
 
-    geneticAlgorithm.selection()
-
+    # geneticAlgorithm =GeneticAlgorithm(numberOfChromosomes=10)
+    # geneticAlgorithm.initializeChromosomes()
+    #
+    # geneticAlgorithm.selection()
 
 
 if __name__ == "__main__":

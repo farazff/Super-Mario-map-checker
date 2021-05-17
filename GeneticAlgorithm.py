@@ -1,10 +1,11 @@
 import math
-from Chromosome import Chromosome
 from random import randint
+
+from Chromosome import Chromosome
 
 
 class GeneticAlgorithm:
-    def __init__(self, numberOfChromosomes, maxPossibilityOfReusingParent = 30,mutationPercentage=25):
+    def __init__(self, numberOfChromosomes, maxPossibilityOfReusingParent=30, mutationPercentage=25):
         self.__chromosomesList = []
         self.__numberOfChromosomes = numberOfChromosomes
         self.__maxPossibilityOfReusingParent = maxPossibilityOfReusingParent
@@ -12,7 +13,8 @@ class GeneticAlgorithm:
 
     def initializeChromosomes(self):
         for i in range(self.__numberOfChromosomes):
-            self.__chromosomesList.append(Chromosome(length=self.__numberOfChromosomes,mutationPercentage=self.__mutationPercentage))
+            self.__chromosomesList.append(
+                Chromosome(length=self.__numberOfChromosomes, mutationPercentage=self.__mutationPercentage))
 
     def selection(self):
         numberOfParentsForReuse = math.floor(
@@ -26,23 +28,22 @@ class GeneticAlgorithm:
 
         for chromosomeNum in range(1, self.__numberOfChromosomes):
             gradesTempDict[(gradeTmp, gradeTmp + self.__chromosomesList[chromosomeNum].getFitnessGrade())] = \
-            self.__chromosomesList[chromosomeNum]
+                self.__chromosomesList[chromosomeNum]
             gradeTmp += self.__chromosomesList[chromosomeNum].getFitnessGrade()
-
 
         selectedParents = []
         for i in range(self.__numberOfChromosomes):
             tmp = []
             tmpGrade1 = randint(0, gradeTmp)
             for j in gradesTempDict.keys():
-                if tmpGrade1 >= j[0] and tmpGrade1 <= j[1]:
+                if j[0] <= tmpGrade1 <= j[1]:
                     tmp.append(gradesTempDict[j])
                     break
             flg = True
             while flg:
                 tmpGrade = randint(0, gradeTmp)
                 for k in gradesTempDict.keys():
-                    if tmpGrade >= k[0] and tmpGrade <= k[1]:
+                    if k[0] <= tmpGrade <= k[1]:
                         tmp.append(gradesTempDict[k])
                         flg = False
                         break
@@ -55,7 +56,7 @@ class GeneticAlgorithm:
         for i in range(len(self.__chromosomesList) - 1, len(self.__chromosomesList) - 1 - numberOfParentsForReuse, -1):
             tmp.append(self.__chromosomesList[i])
         self.printer()
-        return selectedParents,numberOfParentsForReuse
+        return selectedParents, numberOfParentsForReuse
 
     def printer(self):
         for i in self.__chromosomesList:
