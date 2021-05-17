@@ -35,25 +35,30 @@ class GeneticAlgorithm:
                 self.__chromosomesList[chromosomeNum]
             gradeTmp += self.__chromosomesList[chromosomeNum].getFitnessGrade()
 
-        print()
+        # for i in gradesTempDict.keys():
+        #     print(i, "  ", gradesTempDict[i].getPath())
+
         selectedParents = []
         for i in range(self.__numberOfChromosomes):
             tmp = []
-            tmpGrade1 = randint(0, gradeTmp)
+            self.__chromosomesList[0].getFitnessGrade()
+            tmpGrade1 = randint(self.__chromosomesList[0].getFitnessGrade(), gradeTmp)
             for j in gradesTempDict.keys():
                 if j[0] <= tmpGrade1 <= j[1]:
                     tmp.append(gradesTempDict[j])
                     break
             flg = True
             while flg:
-                tmpGrade = randint(0, gradeTmp)
+                tmpGrade = randint(self.__chromosomesList[0].getFitnessGrade(), gradeTmp)
                 for k in gradesTempDict.keys():
                     if k[0] <= tmpGrade <= k[1]:
-                        tmp.append(gradesTempDict[k])
-                        flg = False
-                        break
+                        if gradesTempDict[k] != tmp[0]:
+                            tmp.append(gradesTempDict[k])
+                            flg = False
+                            break
             selectedParents.append(deepcopy(tmp))
 
+        # print("\n\n")
         # for i in selectedParents:
         #     print(i[0].getPath(), "   =   ", i[1].getPath())
 
@@ -64,20 +69,30 @@ class GeneticAlgorithm:
 
     def printer(self):
         for i in self.__chromosomesList:
-            print(i.getPath(), "  =  ", i.getFitnessGrade())
+            print(i.getPath(), "  =  ", i.getFitnessGrade() - 30)
 
     def crossOver(self, selectedParents, numberOfParentsForReuse):
         newGeneration = []
         for i in selectedParents:
-            placeToCross = randint(1, self.__chromosomesLength - 1)
-            child = []
-            child.extend(i[0].getPath()[0:placeToCross])
-            child.extend(i[1].getPath()[placeToCross:self.__chromosomesLength])
-            newChromosome = Chromosome(self.__chromosomesLength, self.__mutationPercentage, self.__board,
-                                       deepcopy(child))
-            newGeneration.append(newChromosome)
+            while True:
+                placeToCross = randint(1, self.__chromosomesLength - 1)
+                child = []
+                if i[0].getPath()[placeToCross - 1] == 1:
+                    if i[1].getPath()[placeToCross] == 1 or i[1].getPath()[placeToCross] == 2:
+                        continue
+                if i[0].getPath()[placeToCross - 1] == 2:
+                    if i[1].getPath()[placeToCross] == 1:
+                        continue
+
+                child.extend(i[0].getPath()[0:placeToCross])
+                child.extend(i[1].getPath()[placeToCross:self.__chromosomesLength])
+                newChromosome = Chromosome(self.__chromosomesLength, self.__mutationPercentage, self.__board,
+                                           deepcopy(child))
+                newGeneration.append(newChromosome)
+                break
         self.__chromosomesList = None
         self.__chromosomesList = deepcopy(newGeneration)
+        # print(end="\n\n")
         # self.printer()
 
     def mutationAll(self):

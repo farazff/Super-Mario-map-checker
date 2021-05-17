@@ -49,20 +49,14 @@ class Chromosome:
         thisIndex = randint(0, self.__length - 1)
         path[thisIndex] = 0
 
-    # in board: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
+    # in board 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
     def fitnessFunction(self):
         board = self.__board
         path = self.__path
         inSky = False
         loc = int(0)
         maxPathLen = int(0)
-        score = int(0)
-
-        # for i in range(0, len(path) - 1):
-            # if path[i] == 1 and path[i + 1] != 0:
-            #     score = score - 7
-            # if path[i] == 2 and path[i + 1] == 1:
-            #     score = score - 7
+        score = int(30)
 
         for i in range(self.__length):
             if path[i] == 0:
@@ -80,14 +74,14 @@ class Chromosome:
                 else:
                     maxPathLen = 0
                 inSky = True
-                # score = score - 1
+                score = score - 1
 
             if path[i] == 2:
                 if board[i + 1] != 2:
                     maxPathLen = maxPathLen + 1
                 else:
                     maxPathLen = 0
-                # score = score - 1
+                score = score - 1
 
             loc = loc + 1
             if board[loc] == 1 and not inSky:
@@ -96,4 +90,6 @@ class Chromosome:
         score = score + maxPathLen
         if maxPathLen == self.__length:
             score = score + 5
+        if path[self.__length - 1] == 1:
+            score += 1
         return score

@@ -21,9 +21,9 @@ def calculateAvg(chromosomeCount, geneticAlgorithm) -> float:
 
 def main():
 
-    chromosomeCount = 15
-    # in board: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
-    board = [0, 0, 0, 0, 2, 0, 1, 3, 0, 0, 2, 0, 0]
+    chromosomeCount = 200
+    # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
+    board = [0, 0, 0, 0, 2, 0, 1, 3, 0, 0, 2, 0, 0, 0]
 
     geneticAlgorithm = GeneticAlgorithm(board, chromosomeCount)
     geneticAlgorithm.initializeChromosomes()
@@ -37,7 +37,6 @@ def main():
         a, b = geneticAlgorithm.selection()
         geneticAlgorithm.crossOver(a, b)
         geneticAlgorithm.printer()
-
         newAvg = calculateAvg(chromosomeCount, geneticAlgorithm)
         print(lastAvg, "  ", newAvg, "  ", abs(lastAvg - newAvg))
         if math.isclose(lastAvg, newAvg):
