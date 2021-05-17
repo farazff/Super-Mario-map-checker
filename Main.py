@@ -16,14 +16,24 @@ def calculateAvg(chromosomeCount, geneticAlgorithm) -> float:
     avg = float(0.0)
     for i in range(chromosomeCount):
         avg = avg + geneticAlgorithm.getChromosomeList()[i].getFitnessGrade()
-    return avg/chromosomeCount
+    return avg / chromosomeCount
 
 
 def main():
-
     chromosomeCount = 200
+    file = open("levels/level3.txt", 'r')
+    input = list(file.read())
     # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
-    board = [0, 0, 0, 0, 2, 0, 1, 3, 0, 0, 2, 0, 0, 0]
+    for i in range(len(input)):
+        if input[i] == "_":
+            input[i] = 0
+        elif input[i] == "M":
+            input[i] = 1
+        elif input[i] == "G":
+            input[i] = 2
+        elif input[i] == "L":
+            input[i] = 3
+    board=input
 
     geneticAlgorithm = GeneticAlgorithm(board, chromosomeCount)
     geneticAlgorithm.initializeChromosomes()
