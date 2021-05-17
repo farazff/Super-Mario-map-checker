@@ -1,4 +1,7 @@
+import math
+from copy import deepcopy
 from Chromosome import Chromosome
+from GeneticAlgorithm import GeneticAlgorithm
 
 
 def listToString(s):
@@ -9,19 +12,38 @@ def listToString(s):
     return LTS
 
 
-def main():
-    board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
-    chromosome = Chromosome(12, 100, board)
-    chromosome.setPath([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0])
-    print(listToString(chromosome.getPath()))
-    chromosome.fitnessFunction()
-    # chromosome.mutation()
-    # print(listToString(chromosome.getPath()))
+def calculateAvg(chromosomeCount, geneticAlgorithm) -> float:
+    avg = float(0.0)
+    for i in range(chromosomeCount):
+        avg = avg + geneticAlgorithm.getChromosomeList()[i].getFitnessGrade()
+    return avg/chromosomeCount
 
-    # geneticAlgorithm =GeneticAlgorithm(numberOfChromosomes=10)
-    # geneticAlgorithm.initializeChromosomes()
-    #
-    # geneticAlgorithm.selection()
+
+def main():
+
+    chromosomeCount = 15
+    # in board: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
+    board = [0, 0, 0, 0, 2, 0, 1, 3, 0, 0, 2, 0, 0]
+
+    geneticAlgorithm = GeneticAlgorithm(board, chromosomeCount)
+    geneticAlgorithm.initializeChromosomes()
+
+    geneticAlgorithm.printer()
+    print(end="\n\n")
+
+    lastAvg = calculateAvg(chromosomeCount, geneticAlgorithm)
+
+    while True:
+        a, b = geneticAlgorithm.selection()
+        geneticAlgorithm.crossOver(a, b)
+        geneticAlgorithm.printer()
+
+        newAvg = calculateAvg(chromosomeCount, geneticAlgorithm)
+        print(lastAvg, "  ", newAvg, "  ", abs(lastAvg - newAvg))
+        if math.isclose(lastAvg, newAvg):
+            break
+        lastAvg = deepcopy(newAvg)
+        print(end="\n\n")
 
 
 if __name__ == "__main__":

@@ -1,12 +1,15 @@
 import math
+from copy import deepcopy
 from random import randint
 
 from Chromosome import Chromosome
 
 
 class GeneticAlgorithm:
-    def __init__(self, numberOfChromosomes, maxPossibilityOfReusingParent=30, mutationPercentage=25):
+    def __init__(self, board, numberOfChromosomes, maxPossibilityOfReusingParent=30, mutationPercentage=25):
         self.__chromosomesList = []
+        self.__board = board
+        self.__chromosomesLength = len(board) - 1
         self.__numberOfChromosomes = numberOfChromosomes
         self.__maxPossibilityOfReusingParent = maxPossibilityOfReusingParent
         self.__mutationPercentage = mutationPercentage
@@ -14,12 +17,13 @@ class GeneticAlgorithm:
     def initializeChromosomes(self):
         for i in range(self.__numberOfChromosomes):
             self.__chromosomesList.append(
-                Chromosome(length=self.__numberOfChromosomes, mutationPercentage=self.__mutationPercentage))
+                Chromosome(length=self.__chromosomesLength, mutationPercentage=self.__mutationPercentage,
+                           board=self.__board))
 
     def selection(self):
         numberOfParentsForReuse = math.floor(
             self.__numberOfChromosomes * (randint(0, self.__maxPossibilityOfReusingParent) / 100))
-        print("numberOfParentsForReuse  =  ", numberOfParentsForReuse)
+        # print("numberOfParentsForReuse  =  ", numberOfParentsForReuse)
 
         self.__chromosomesList.sort(key=lambda x: x.getFitnessGrade(), reverse=False)
         gradesTempDict = {}
@@ -31,6 +35,7 @@ class GeneticAlgorithm:
                 self.__chromosomesList[chromosomeNum]
             gradeTmp += self.__chromosomesList[chromosomeNum].getFitnessGrade()
 
+        print()
         selectedParents = []
         for i in range(self.__numberOfChromosomes):
             tmp = []
@@ -47,24 +52,37 @@ class GeneticAlgorithm:
                         tmp.append(gradesTempDict[k])
                         flg = False
                         break
-            selectedParents.append(tmp)
+            selectedParents.append(deepcopy(tmp))
 
-        for i in selectedParents:
-            print(i[0].getPath(), "   =   ", i[1].getPath())
+        # for i in selectedParents:
+        #     print(i[0].getPath(), "   =   ", i[1].getPath())
 
         tmp = []
         for i in range(len(self.__chromosomesList) - 1, len(self.__chromosomesList) - 1 - numberOfParentsForReuse, -1):
             tmp.append(self.__chromosomesList[i])
-        self.printer()
         return selectedParents, numberOfParentsForReuse
 
     def printer(self):
         for i in self.__chromosomesList:
             print(i.getPath(), "  =  ", i.getFitnessGrade())
 
-    def crossOver(self):
-        pass
+    def crossOver(self, selectedParents, numberOfParentsForReuse):
+        newGeneration = []
+        for i in selectedParents:
+            placeToCross = randint(1, self.__chromosomesLength - 1)
+            child = []
+            child.extend(i[0].getPath()[0:placeToCross])
+            child.extend(i[1].getPath()[placeToCross:self.__chromosomesLength])
+            newChromosome = Chromosome(self.__chromosomesLength, self.__mutationPercentage, self.__board,
+                                       deepcopy(child))
+            newGeneration.append(newChromosome)
+        self.__chromosomesList = None
+        self.__chromosomesList = deepcopy(newGeneration)
+        # self.printer()
 
     def mutationAll(self):
         for i in self.__chromosomesList:
             i.mutation()
+
+    def getChromosomeList(self):
+        return self.__chromosomesList

@@ -9,11 +9,11 @@ class Chromosome:
         self.__length = length
         self.__path = []
         self.__board = board
-        self.__fitnessGrade = int(0)
         if len(args) == 0:
             self.__path = self.generateRandomPath()
         else:
             self.__path = args[0]
+        self.__fitnessGrade = self.fitnessFunction()
 
     def getFitnessGrade(self):
         return self.__fitnessGrade
@@ -37,6 +37,8 @@ class Chromosome:
                 if temp2 == 1:
                     temp2 = 2
                 path.append(temp2)
+        if len(path) >= length:
+            path = path[0: length]
         return path
 
     def mutation(self):
@@ -56,6 +58,12 @@ class Chromosome:
         maxPathLen = int(0)
         score = int(0)
 
+        # for i in range(0, len(path) - 1):
+            # if path[i] == 1 and path[i + 1] != 0:
+            #     score = score - 7
+            # if path[i] == 2 and path[i + 1] == 1:
+            #     score = score - 7
+
         for i in range(self.__length):
             if path[i] == 0:
                 if inSky is True and board[i + 1] == 2:
@@ -72,14 +80,14 @@ class Chromosome:
                 else:
                     maxPathLen = 0
                 inSky = True
-                score = score - 1
+                # score = score - 1
 
             if path[i] == 2:
                 if board[i + 1] != 2:
                     maxPathLen = maxPathLen + 1
                 else:
                     maxPathLen = 0
-                score = score - 1
+                # score = score - 1
 
             loc = loc + 1
             if board[loc] == 1 and not inSky:
@@ -88,4 +96,4 @@ class Chromosome:
         score = score + maxPathLen
         if maxPathLen == self.__length:
             score = score + 5
-        print(score)
+        return score
