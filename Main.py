@@ -1,7 +1,7 @@
 import math
 from copy import deepcopy
-from Chromosome import Chromosome
 from GeneticAlgorithm import GeneticAlgorithm
+from Chromosome import Chromosome
 
 
 def listToString(s):
@@ -21,7 +21,7 @@ def calculateAvg(chromosomeCount, geneticAlgorithm) -> float:
 
 def main():
     chromosomeCount = 200
-    file = open("levels/level3.txt", 'r')
+    file = open("levels/level5.txt", 'r')
     input = list(file.read())
     # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
     for i in range(len(input)):
@@ -33,7 +33,9 @@ def main():
             input[i] = 2
         elif input[i] == "L":
             input[i] = 3
-    board=input
+    board = input
+    chromosome = Chromosome(11, 10, board, [0,0,1,0,0,0,2,0,0,1,0])
+    print(chromosome.getFitnessGrade() - 30)
 
     geneticAlgorithm = GeneticAlgorithm(board, chromosomeCount)
     geneticAlgorithm.initializeChromosomes()

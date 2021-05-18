@@ -6,7 +6,7 @@ from Chromosome import Chromosome
 
 
 class GeneticAlgorithm:
-    def __init__(self, board, numberOfChromosomes, maxPossibilityOfReusingParent=30, mutationPercentage=25):
+    def __init__(self, board, numberOfChromosomes, maxPossibilityOfReusingParent=30, mutationPercentage=10):
         self.__chromosomesList = []
         self.__board = board
         self.__chromosomesLength = len(board) - 1

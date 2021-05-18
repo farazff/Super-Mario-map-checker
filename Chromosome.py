@@ -62,7 +62,7 @@ class Chromosome:
             if path[i] == 0:
                 if inSky is True and board[i + 1] == 2:
                     score = score + 2
-                if board[i + 1] == 0 or board[i + 1] == 1:
+                if board[i + 1] == 0 or board[i + 1] == 1 or (board[i + 1] == 2 and inSky is True):
                     maxPathLen = maxPathLen + 1
                 else:
                     maxPathLen = 0
