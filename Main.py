@@ -1,4 +1,3 @@
-import math
 from copy import deepcopy
 from GeneticAlgorithm import GeneticAlgorithm
 from Chromosome import Chromosome
@@ -19,23 +18,30 @@ def calculateAvg(chromosomeCount, geneticAlgorithm) -> float:
     return avg / chromosomeCount
 
 
+def checkDone(averages):
+    flag = averages[-1]
+    for i in range(len(averages) - 50, len(averages) - 1):
+        if i >= 0 and averages[i] != flag:
+            return False
+    return True
+
+
 def main():
     chromosomeCount = 200
     file = open("levels/level5.txt", 'r')
-    input = list(file.read())
+    inoutFile = list(file.read())
     # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
-    for i in range(len(input)):
-        if input[i] == "_":
-            input[i] = 0
-        elif input[i] == "M":
-            input[i] = 1
-        elif input[i] == "G":
-            input[i] = 2
-        elif input[i] == "L":
-            input[i] = 3
-    board = input
-    chromosome = Chromosome(11, 10, board, [0,0,1,0,0,0,2,0,0,1,0])
-    print(chromosome.getFitnessGrade() - 30)
+    for i in range(len(inoutFile)):
+        if inoutFile[i] == "_":
+            inoutFile[i] = 0
+        elif inoutFile[i] == "M":
+            inoutFile[i] = 1
+        elif inoutFile[i] == "G":
+            inoutFile[i] = 2
+        elif inoutFile[i] == "L":
+            inoutFile[i] = 3
+    inoutFile.append(0)
+    board = inoutFile
 
     geneticAlgorithm = GeneticAlgorithm(board, chromosomeCount)
     geneticAlgorithm.initializeChromosomes()
@@ -43,17 +49,18 @@ def main():
     geneticAlgorithm.printer()
     print(end="\n\n")
 
-    lastAvg = calculateAvg(chromosomeCount, geneticAlgorithm)
+    Avg = calculateAvg(chromosomeCount, geneticAlgorithm)
+    averages = [deepcopy(Avg)]
 
     while True:
         a, b = geneticAlgorithm.selection()
         geneticAlgorithm.crossOver(a, b)
         geneticAlgorithm.printer()
-        newAvg = calculateAvg(chromosomeCount, geneticAlgorithm)
-        print(lastAvg, "  ", newAvg, "  ", abs(lastAvg - newAvg))
-        if math.isclose(lastAvg, newAvg):
+        Avg = calculateAvg(chromosomeCount, geneticAlgorithm)
+        averages.append(deepcopy(Avg))
+        print(Avg)
+        if checkDone(averages):
             break
-        lastAvg = deepcopy(newAvg)
         print(end="\n\n")
 
 
