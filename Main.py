@@ -28,7 +28,7 @@ def checkDone(averages):
 
 def main():
     chromosomeCount = 200
-    file = open("levels/level5.txt", 'r')
+    file = open("levels/level1.txt", 'r')
     inoutFile = list(file.read())
     # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
     for i in range(len(inoutFile)):

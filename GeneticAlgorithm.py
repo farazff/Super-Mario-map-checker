@@ -23,7 +23,6 @@ class GeneticAlgorithm:
     def selection(self):
         numberOfParentsForReuse = math.floor(
             self.__numberOfChromosomes * (randint(0, self.__maxPossibilityOfReusingParent) / 100))
-        # print("numberOfParentsForReuse  =  ", numberOfParentsForReuse)
 
         self.__chromosomesList.sort(key=lambda x: x.getFitnessGrade(), reverse=False)
         gradesTempDict = {}
@@ -34,9 +33,6 @@ class GeneticAlgorithm:
             gradesTempDict[(gradeTmp, gradeTmp + self.__chromosomesList[chromosomeNum].getFitnessGrade())] = \
                 self.__chromosomesList[chromosomeNum]
             gradeTmp += self.__chromosomesList[chromosomeNum].getFitnessGrade()
-
-        # for i in gradesTempDict.keys():
-        #     print(i, "  ", gradesTempDict[i].getPath())
 
         selectedParents = []
         for i in range(self.__numberOfChromosomes):
@@ -57,10 +53,6 @@ class GeneticAlgorithm:
                             flg = False
                             break
             selectedParents.append(deepcopy(tmp))
-
-        # print("\n\n")
-        # for i in selectedParents:
-        #     print(i[0].getPath(), "   =   ", i[1].getPath())
 
         tmp = []
         for i in range(len(self.__chromosomesList) - 1, len(self.__chromosomesList) - 1 - numberOfParentsForReuse, -1):
@@ -90,10 +82,12 @@ class GeneticAlgorithm:
                                            deepcopy(child))
                 newGeneration.append(newChromosome)
                 break
+        newGeneration.sort(key=lambda x: x.getFitnessGrade(), reverse=False)
+        self.__chromosomesList.sort(key=lambda x: x.getFitnessGrade(), reverse=False)
+        for i in range(numberOfParentsForReuse):
+            newGeneration[i] = deepcopy(self.__chromosomesList[-1 - i])
         self.__chromosomesList = None
         self.__chromosomesList = deepcopy(newGeneration)
-        # print(end="\n\n")
-        # self.printer()
 
     def mutationAll(self):
         for i in self.__chromosomesList:

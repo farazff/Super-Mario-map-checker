@@ -91,5 +91,5 @@ class Chromosome:
         if maxPathLen == self.__length:
             score = score + 5
         if path[self.__length - 1] == 1:
-            score += 1
+            score += 2
         return score
