@@ -4,7 +4,7 @@ import Starting
 def main():
 
     population = 200
-    level = 6
+    level = 5
     mutationPercentage = 10
     maxPossibilityOfReusingParent = 20
 

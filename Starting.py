@@ -1,8 +1,6 @@
 from copy import deepcopy
-
-import matplotlib.pyplot as plt
-
 from GeneticAlgorithm import GeneticAlgorithm
+import matplotlib.pyplot as plt
 
 
 def listToString(s):
@@ -73,9 +71,9 @@ def start(population, lvlNum, mutationPercentage, maxPossOfReusing):
             break
         print(end="\n\n")
 
-    plt.style.use("dark_background")
-    plt.xlabel('Generation')
-    plt.ylabel('Average')
-    plt.title('Population = 500')
-    plt.plot(x, y)
-    plt.show()
+    # plt.style.use("dark_background")
+    # plt.xlabel('Generation')
+    # plt.ylabel('Average')
+    # plt.title('Population = 500')
+    # plt.plot(x, y)
+    # plt.show()
