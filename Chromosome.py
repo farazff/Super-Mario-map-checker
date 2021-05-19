@@ -4,7 +4,6 @@ from random import randint
 class Chromosome:
 
     def __init__(self, length, mutationPercentage, board, *args):
-
         self.__mutationPercentage = mutationPercentage
         self.__length = length
         self.__path = []
