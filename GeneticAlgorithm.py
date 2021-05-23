@@ -95,3 +95,4 @@ class GeneticAlgorithm:
 
     def getChromosomeList(self):
         return self.__chromosomesList
+

@@ -1,7 +1,7 @@
 from copy import deepcopy
 from GeneticAlgorithm import GeneticAlgorithm
 import matplotlib.pyplot as plt
-
+from GuiHandler import GuiHandler
 
 def listToString(s):
     LTS = ""
@@ -33,6 +33,7 @@ def start(population, lvlNum, mutationPercentage, maxPossOfReusing):
     filePath = "levels/level" + str(lvlNum) + ".txt"
     file = open(filePath, 'r')
     inoutFile = list(file.read())
+    guiHandler = GuiHandler(map=deepcopy(inoutFile))
     # in board -> 0: default    1: mushroom   2: on ground obstacle   3: in sky obstacle
     for i in range(len(inoutFile)):
         if inoutFile[i] == "_":
@@ -68,6 +69,8 @@ def start(population, lvlNum, mutationPercentage, maxPossOfReusing):
         x.append(count)
         y.append(Avg)
         if checkDone(averages):
+            guiHandler.mapDisplay(geneticAlgorithm.getChromosomeList()[len(geneticAlgorithm.getChromosomeList())-1].getPath())
+
             break
         print(end="\n\n")
 
