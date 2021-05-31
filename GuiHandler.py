@@ -19,12 +19,14 @@ class GuiHandler():
         self.__winner = pygame.image.load("./images/winner.png")
         self.__map = map
         self.__screen = None
-        self.__lenght = 1000
-        self.__height = 600
+        self.__lenght = 1550
+        self.__height = 800
 
     def mapDisplay(self, path):
         pygame.init()
+        self.__height=5*(self.__lenght//len(path))
         self.__screen = pygame.display.set_mode((self.__lenght, self.__height))
+        # self.__screen = pygame.display.set_mode()
 
         notClosed = True
         ani = 0
@@ -129,12 +131,17 @@ class GuiHandler():
                 self.__screen.blit(self.__winnerMario, (xLoc , yLoc - 1 * tmpScale +   ani))
                 self.__screen.blit(self.__winner, (self.__lenght/2-tmpScale, self.__height/2-tmpScale - 1 * tmpScale +   ani))
 
-            # self.mapUpdator()    TODO   # uncomment it
+            self.mapUpdator(step,path)       # uncomment it
             pygame.display.update()
 
     def mapUpdator(self,step,path):
-        #you have map and path                      and current step
-                                   # self.__map                         step
-                                    # path
-        pass
+        # stepT=step+2
+        print(step , "    :  ",path,"  :  ",self.__map)
+
+        if  step+3<=len(path) and path[step]==1 and self.__map[step+2]=='G':
+            self.__map[step+2]='_'
+        if  step+2<=len(path)  and self.__map[step+1]=='M'  and path[step]!=1:
+            self.__map[step+1 ] = '_'
+
+
 

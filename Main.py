@@ -4,7 +4,7 @@ import Starting
 def main():
 
     population = 200
-    level = 5
+    level = 4
     guiHandler=None
     mutationPercentage = 10
     maxPossibilityOfReusingParent = 20
