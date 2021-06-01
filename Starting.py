@@ -1,7 +1,8 @@
 from copy import deepcopy
+
 from GeneticAlgorithm import GeneticAlgorithm
-import matplotlib.pyplot as plt
 from GuiHandler import GuiHandler
+
 
 def listToString(s):
     LTS = ""
@@ -69,7 +70,8 @@ def start(population, lvlNum, mutationPercentage, maxPossOfReusing):
         x.append(count)
         y.append(Avg)
         if checkDone(averages):
-            guiHandler.mapDisplay(geneticAlgorithm.getChromosomeList()[len(geneticAlgorithm.getChromosomeList())-1].getPath())
+            guiHandler.mapDisplay(
+                geneticAlgorithm.getChromosomeList()[len(geneticAlgorithm.getChromosomeList()) - 1].getPath())
 
             break
         print(end="\n\n")

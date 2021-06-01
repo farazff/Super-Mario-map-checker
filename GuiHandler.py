@@ -1,4 +1,7 @@
-import pygame, random,math
+import random
+
+import pygame
+
 
 class GuiHandler():
     def __init__(self, map):
@@ -24,21 +27,21 @@ class GuiHandler():
 
     def mapDisplay(self, path):
         pygame.init()
-        self.__height=5*(self.__lenght//len(path))
+        self.__height = 5 * (self.__lenght // len(path))
         self.__screen = pygame.display.set_mode((self.__lenght, self.__height))
         # self.__screen = pygame.display.set_mode()
 
         notClosed = True
         ani = 0
-        animForMario=0
+        animForMario = 0
         anit = True
         rndForAnimation = random.randint(0, 2)
-        step=0
+        step = 0
         while notClosed:
-            if ani == 10  or ani==-30:
-             if step<=len(path)-2:
-                step+=1
-             animForMario=0
+            if ani == 10 or ani == -30:
+                if step <= len(path) - 2:
+                    step += 1
+                animForMario = 0
 
             if anit:
                 ani += 0.5
@@ -73,7 +76,7 @@ class GuiHandler():
             self.__jumpingMario = pygame.transform.scale(self.__jumpingMario, (tmpScale, tmpScale))
             self.__sittingMario = pygame.transform.scale(self.__sittingMario, (tmpScale, tmpScale))
             self.__winnerMario = pygame.transform.scale(self.__winnerMario, (tmpScale, tmpScale))
-            self.__winner = pygame.transform.scale(self.__winner, (tmpScale*3, tmpScale*3))
+            self.__winner = pygame.transform.scale(self.__winner, (tmpScale * 3, tmpScale * 3))
 
             for i in range(0, len(self.__map)):
 
@@ -85,7 +88,7 @@ class GuiHandler():
                 elif (self.__map[i] == "G"):
 
                     if rndForAnimation == 0:
-                        self.__screen.blit(self.__goomba1, (xLoc , yLoc - tmpScale +  0.6 * ani))
+                        self.__screen.blit(self.__goomba1, (xLoc, yLoc - tmpScale + 0.6 * ani))
                     elif rndForAnimation == 1:
                         self.__screen.blit(self.__goomba2, (xLoc, yLoc - tmpScale + 0.6 * ani))
                     elif rndForAnimation == 2:
@@ -105,43 +108,46 @@ class GuiHandler():
 
             xLoc = step * tmpScale
             yLoc = self.__height - tmpScale
-            animForMario +=tmpScale/80
-            if step!=len(path)-1:
+            animForMario += tmpScale / 80
+            if step != len(path) - 1:
                 if path[step] == 0:
-                    if step+1!=len(path) and path[step+1]==1:
-                         self.__screen.blit(self.__jumpingMario, (xLoc+tmpScale +abs(animForMario), yLoc - 1*tmpScale -abs(animForMario)))
-                    elif step+1!=len(path) and path[step+1]==2:
-                         self.__screen.blit(self.__sittingMario, (xLoc+tmpScale +abs(animForMario), yLoc - 1*tmpScale ))
+                    if step + 1 != len(path) and path[step + 1] == 1:
+                        self.__screen.blit(self.__jumpingMario, (
+                            xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale - abs(animForMario)))
+                    elif step + 1 != len(path) and path[step + 1] == 2:
+                        self.__screen.blit(self.__sittingMario,
+                                           (xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale))
                     else:
                         if anit:
-                          self.__screen.blit(self.__mario, (xLoc +tmpScale+abs(animForMario), yLoc - 1*tmpScale  ))
+                            self.__screen.blit(self.__mario, (xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale))
                         else:
-                            self.__screen.blit(self.__mario2, (xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale))
+                            self.__screen.blit(self.__mario2,
+                                               (xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale))
 
                 elif path[step] == 1:
-                    if step+1!=len(path) and path[step+1]==0:
-                         self.__screen.blit(self.__jumpingMario, (xLoc+tmpScale +abs(animForMario), yLoc - 2*tmpScale +abs(animForMario)))
+                    if step + 1 != len(path) and path[step + 1] == 0:
+                        self.__screen.blit(self.__jumpingMario, (
+                            xLoc + tmpScale + abs(animForMario), yLoc - 2 * tmpScale + abs(animForMario)))
 
                     else:
-                     self.__screen.blit(self.__jumpingMario, (xLoc+tmpScale+abs(animForMario), yLoc - 2 * tmpScale))
+                        self.__screen.blit(self.__jumpingMario,
+                                           (xLoc + tmpScale + abs(animForMario), yLoc - 2 * tmpScale))
 
                 elif path[step] == 2:
-                    self.__screen.blit(self.__sittingMario, (xLoc+tmpScale+abs(animForMario), yLoc - 1 * tmpScale))
+                    self.__screen.blit(self.__sittingMario, (xLoc + tmpScale + abs(animForMario), yLoc - 1 * tmpScale))
             else:
-                self.__screen.blit(self.__winnerMario, (xLoc , yLoc - 1 * tmpScale +   ani))
-                self.__screen.blit(self.__winner, (self.__lenght/2-tmpScale, self.__height/2-tmpScale - 1 * tmpScale +   ani))
+                self.__screen.blit(self.__winnerMario, (xLoc, yLoc - 1 * tmpScale + ani))
+                self.__screen.blit(self.__winner,
+                                   (self.__lenght / 2 - tmpScale, self.__height / 2 - tmpScale - 1 * tmpScale + ani))
 
-            self.mapUpdator(step,path)       # uncomment it
+            self.mapUpdator(step, path)  # uncomment it
             pygame.display.update()
 
-    def mapUpdator(self,step,path):
+    def mapUpdator(self, step, path):
         # stepT=step+2
-        print(step , "    :  ",path,"  :  ",self.__map)
+        # print(step, "    :  ", path, "  :  ", self.__map)
 
-        if  step+3<=len(path) and path[step]==1 and self.__map[step+2]=='G':
-            self.__map[step+2]='_'
-        if  step+2<=len(path)  and self.__map[step+1]=='M'  and path[step]!=1:
-            self.__map[step+1 ] = '_'
-
-
-
+        if step + 3 <= len(path) and path[step] == 1 and self.__map[step + 2] == 'G':
+            self.__map[step + 2] = '_'
+        if step + 2 <= len(path) and self.__map[step + 1] == 'M' and path[step] != 1:
+            self.__map[step + 1] = '_'
